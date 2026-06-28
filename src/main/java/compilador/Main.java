@@ -1,42 +1,46 @@
 package compilador;
 
-import compilador.lexer.Lexer;
-import compilador.lexer.Token;
-import compilador.parser.Parser;
-import compilador.util.FileUtil;
 
-import java.util.List;
+import compilador.antlr.GyhLangLexer;
+import compilador.antlr.GyhLangParser;
+import org.antlr.v4.runtime.*;
+import org.antlr.v4.runtime.CharStream;
+import org.antlr.v4.runtime.CharStreams;
+import org.antlr.v4.runtime.CommonTokenStream;
+
+import java.io.IOException;
 
 public class Main {
-    public static void main(String[] args) throws Exception {
-
-        String source = FileUtil.load("src/input/Testes Analisadores/_Testes_Sintáticos/programa4.gyh");
-
-        // ===== ANÁLISE LÉXICA =====
-        Lexer lexer = new Lexer(source);
-        List<Token> tokens = lexer.tokenize();
-
-        for (Token t : tokens) {
-            System.out.println(t);
-        }
-
-        if (!lexer.getErrors().isEmpty()) {
-            System.out.println("\n==== ERROS LÉXICOS ====");
-            for (String e : lexer.getErrors()) {
-                System.out.println(e);
-            }
-            return; // Para aqui se tiver erro léxico
-        }
-
-        // ===== ANÁLISE SINTÁTICA =====
-        Parser parser = new Parser(tokens);
+    public static void main(String[] args) {
+        // Substitua pelo caminho do seu arquivo de teste
+        String arquivoTeste = "src/input/programa_teste.gyh";
 
         try {
-            parser.parse();
-            System.out.println("\nPrograma sintaticamente correto!");
+            // 1. Carrega o código fonte
+            CharStream cs = CharStreams.fromFileName(arquivoTeste);
+
+            // 2. Análise Léxica com ANTLR
+            GyhLangLexer lexer = new GyhLangLexer(cs);
+            CommonTokenStream tokens = new CommonTokenStream(lexer);
+
+            // 3. Análise Sintática com ANTLR
+            GyhLangParser parser = new GyhLangParser(tokens);
+
+            System.out.println("Iniciando compilacao do arquivo: " + arquivoTeste);
+
+            // 4. Inicia a análise a partir da regra principal definida no seu .g4
+            parser.programa();
+
+            System.out.println("Analise concluida com sucesso!");
+
+            // 5. Gera o código em C
+            System.out.println("Iniciando geracao de codigo...");
+            parser.generateCommand();
+
+        } catch (IOException e) {
+            System.err.println("Erro ao ler o arquivo: " + e.getMessage());
         } catch (Exception e) {
-            System.out.println("\n==== ERRO SINTÁTICO ====");
-            System.out.println(e.getMessage());
+            System.err.println("Erro durante a compilacao: " + e.getMessage());
         }
     }
 }
