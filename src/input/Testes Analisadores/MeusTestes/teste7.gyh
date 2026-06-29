@@ -1,0 +1,9 @@
+:DEC
+a:INT
+
+:PROG
+
+ENQTO b < 10
+INI
+IMPRIMIR a
+FIM

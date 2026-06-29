@@ -1,0 +1,32 @@
+# Programa de teste sem erros
+
+:DEC
+numero:INT
+resultado:INT
+media:REAL
+
+:PROG
+
+LER numero
+
+resultado := numero * 2 + 10
+
+media := (resultado + 5) / 2.0
+
+SE media >= 10 ENTAO
+INI
+    IMPRIMIR "Media suficiente"
+    IMPRIMIR resultado
+FIM
+SENAO
+INI
+    IMPRIMIR "Media insuficiente"
+FIM
+
+ENQTO resultado < 100
+INI
+    resultado := resultado + 10
+    IMPRIMIR resultado
+FIM
+
+IMPRIMIR "Fim do programa"

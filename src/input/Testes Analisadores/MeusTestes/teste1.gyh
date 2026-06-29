@@ -1,0 +1,10 @@
+# Erro: variável 'x' não declarada
+
+:DEC
+a:INT
+
+:PROG
+
+LER a
+x := 10
+IMPRIMIR a

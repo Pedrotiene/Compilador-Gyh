@@ -1,0 +1,8 @@
+:DEC
+a:INT
+b:REAL
+
+:PROG
+
+b := 10.5
+a := b

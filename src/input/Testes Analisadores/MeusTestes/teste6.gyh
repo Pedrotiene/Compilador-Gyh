@@ -1,0 +1,9 @@
+:DEC
+a:INT
+
+:PROG
+
+SE b > 10 ENTAO
+INI
+IMPRIMIR a
+FIM

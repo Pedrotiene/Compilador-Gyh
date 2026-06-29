@@ -1,19 +1,22 @@
 package compilador.commands;
 
 public class CommandAtribuicao extends Command {
-    private String id;
-    private String expressao;
+    private String variable;
+    private String expression;
 
-    public CommandAtribuicao(String id, String expressao) {
-        this.id = id;
-        this.expressao = expressao;
+    public CommandAtribuicao(String variable, String expression) {
+        this.variable = variable;
+        this.expression = expression;
     }
 
     @Override
-    public String generateCCode() {
-        // A tradução da atribuição é bem direta. Nós pegamos o identificador
-        // que validamos na análise léxica/sintática, usamos o operador '=' do C,
-        // e concatenamos com a expressão.
-        return id + " = " + expressao + ";\n";
+    public String generateCode() {
+        // Traduz para o formato padrão de atribuição em C: x = expressao;
+        return variable + " = " + expression + ";";
+    }
+
+    @Override
+    public String toString() {
+        return "CommandAtribuicao [variable=" + variable + ", expression=" + expression + "]";
     }
 }
