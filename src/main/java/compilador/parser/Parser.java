@@ -19,6 +19,10 @@ public class Parser {
         consume(TokenType.EOF, "Esperado fim do arquivo");
     }
 
+    // ===============================
+    // Helpers
+    // ===============================
+
     private Token peek() {
         return tokens.get(pos);
     }
@@ -49,6 +53,10 @@ public class Parser {
         );
     }
 
+    // ===============================
+    // Programa
+    // ===============================
+
     private void programa() {
         consume(TokenType.DELIM, "Esperado ':'");
         consume(TokenType.PC_DEC, "Esperado DEC");
@@ -60,6 +68,10 @@ public class Parser {
 
         listaComandos();
     }
+
+    // ===============================
+    // Declarações
+    // ===============================
 
     private void listaDeclaracoes() {
 
@@ -79,6 +91,10 @@ public class Parser {
             throw error("Esperado INT ou REAL");
         }
     }
+
+    // ===============================
+    // Comandos
+    // ===============================
 
     private void listaComandos() {
 
@@ -111,6 +127,10 @@ public class Parser {
             default -> throw error("Comando inválido");
         }
     }
+
+    // ===============================
+    // Tipos de comando
+    // ===============================
 
     private void comandoAtribuicao() {
         consume(TokenType.VAR, "Esperado variável");
@@ -163,6 +183,10 @@ public class Parser {
         consume(TokenType.PC_FIM, "Esperado FIM");
     }
 
+    // ===============================
+    // Expressões Aritméticas
+    // ===============================
+
     private void expressaoAritmetica() {
         termoAritmetico();
 
@@ -198,6 +222,10 @@ public class Parser {
             default -> throw error("Fator inválido");
         }
     }
+
+    // ===============================
+    // Expressões Relacionais
+    // ===============================
 
     private void expressaoRelacional() {
         termoRelacional();

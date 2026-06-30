@@ -1,0 +1,24 @@
+# Programa para testar múltiplos erros
+
+:DEC
+a:INT
+a:REAL
+b:REAL
+
+:PROG
+
+LER c
+
+a := 2.5
+
+b := d + 3
+
+SE e > f ENTAO
+INI
+IMPRIMIR g
+FIM
+
+ENQTO h < 10
+INI
+i := 20
+FIM

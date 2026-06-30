@@ -1,0 +1,9 @@
+# Erro: variável declarada duas vezes
+
+:DEC
+a:INT
+a:REAL
+
+:PROG
+
+IMPRIMIR "Teste"

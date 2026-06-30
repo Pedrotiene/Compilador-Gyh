@@ -1,42 +1,118 @@
 package compilador;
 
-import compilador.lexer.Lexer;
-import compilador.lexer.Token;
-import compilador.parser.Parser;
-import compilador.util.FileUtil;
+import compilador.antlr.GyhLangLexer;
+import compilador.antlr.GyhLangParser;
+import compilador.commands.AnalisadorSemantico;
+import compilador.commands.GeraCodigo;
+import compilador.commands.LeitorArquivos;
 
+import org.antlr.v4.runtime.CharStream;
+import org.antlr.v4.runtime.CharStreams;
+import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.tree.ParseTree;
+
+import java.io.IOException;
 import java.util.List;
 
+/*
+ * ============================================================
+ * Link do Video - https://drive.google.com/file/d/1MGeIqjgRWc_xRTGddCMg-SLIO5ik4R5-/view?usp=sharing
+ * ============================================================
+ */
+
 public class Main {
-    public static void main(String[] args) throws Exception {
 
-        String source = FileUtil.load("src/input/Testes Analisadores/_Testes_Sintáticos/programa4.gyh");
+    public static void main(String[] args) {
 
-        // ===== ANÁLISE LÉXICA =====
-        Lexer lexer = new Lexer(source);
-        List<Token> tokens = lexer.tokenize();
+        /*
+         * ============================================================
+         * OPÇÃO 1 - Compilar um único arquivo
+         * ============================================================
+         */
 
-        for (Token t : tokens) {
-            System.out.println(t);
+  //      String arquivoEntrada = "src/input/Testes Analisadores/_Testes_Semanticos/programa5.gyh";
+//
+//        String pastaOutput = "src/output/";
+//        String nomeArquivoSaida = "programa5.c";
+//
+//        String arquivoSaida = pastaOutput + nomeArquivoSaida;
+//
+//        compilarArquivo(arquivoEntrada, arquivoSaida);
+
+        /*
+         * ============================================================
+         * OPÇÃO 2 - Compilar todos os arquivos de uma pasta
+         * ============================================================
+         */
+
+        String pastaEntrada = "src/input/Testes Analisadores/_Testes_Semanticos";
+        String pastaSaida = "src/output/";
+
+        List<String> arquivos = LeitorArquivos.listarArquivos(pastaEntrada);
+
+        for (String arquivoEntrada : arquivos) {
+
+            String nomeArquivo = arquivoEntrada.substring(
+                    arquivoEntrada.lastIndexOf("\\") + 1);
+
+            String arquivoSaida = pastaSaida +
+                    nomeArquivo.replace(".gyh", ".c");
+
+            compilarArquivo(arquivoEntrada, arquivoSaida);
         }
+    }
 
-        if (!lexer.getErrors().isEmpty()) {
-            System.out.println("\n==== ERROS LÉXICOS ====");
-            for (String e : lexer.getErrors()) {
-                System.out.println(e);
-            }
-            return; // Para aqui se tiver erro léxico
-        }
+    /*
+     * ============================================================================
+     * Comente até aqui se quiser usar arquivo por arquivo, e descomente a OPÇÃO 1
+     * ============================================================================
+     */
 
-        // ===== ANÁLISE SINTÁTICA =====
-        Parser parser = new Parser(tokens);
+    private static void compilarArquivo(String arquivoEntrada,
+                                        String arquivoSaida) {
 
         try {
-            parser.parse();
-            System.out.println("\nPrograma sintaticamente correto!");
+
+            System.out.println("\n====================================");
+            System.out.println("Compilando: " + arquivoEntrada);
+            System.out.println("====================================");
+
+            CharStream input = CharStreams.fromFileName(arquivoEntrada);
+
+            // 1. Análise Léxica
+            GyhLangLexer lexer = new GyhLangLexer(input);
+            CommonTokenStream tokens = new CommonTokenStream(lexer);
+
+            // 2. Análise Sintática
+            GyhLangParser parser = new GyhLangParser(tokens);
+            ParseTree tree = parser.programa();
+
+            // 3. Análise Semântica
+            System.out.println("Iniciando Análise Semântica...");
+            AnalisadorSemantico semantico = new AnalisadorSemantico();
+            semantico.visit(tree);
+
+            if (semantico.possuiErro()) {
+                System.out.println("Compilação interrompida devido a erros semânticos.");
+                return;
+            }
+
+            System.out.println("Análise Semântica concluída.");
+
+            // 4. Geração do código C
+            GeraCodigo.exportar(semantico, arquivoSaida);
+
+            System.out.println("Arquivo gerado: " + arquivoSaida);
+
+        } catch (IOException e) {
+
+            System.err.println("Erro ao ler o arquivo: " + arquivoEntrada);
+
         } catch (Exception e) {
-            System.out.println("\n==== ERRO SINTÁTICO ====");
-            System.out.println(e.getMessage());
+
+            System.err.println("Erro durante a compilação de: " + arquivoEntrada);
+            e.printStackTrace();
+
         }
     }
 }
