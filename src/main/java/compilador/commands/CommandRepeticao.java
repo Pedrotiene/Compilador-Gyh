@@ -4,7 +4,7 @@ import java.util.List;
 
 public class CommandRepeticao extends Command {
     private String condition;
-    private List<Command> commandList; // Comandos do laço de repetição
+    private List<Command> commandList;
 
     public CommandRepeticao(String condition, List<Command> commandList) {
         this.condition = condition;
@@ -14,7 +14,7 @@ public class CommandRepeticao extends Command {
     @Override
     public String generateCode() {
         StringBuilder str = new StringBuilder();
-        // Traduz para o formato 'while' em C
+
         str.append("while (").append(condition).append(") {\n");
 
         for (Command cmd : commandList) {

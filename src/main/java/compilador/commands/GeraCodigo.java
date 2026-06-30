@@ -16,7 +16,7 @@ public class GeraCodigo {
 
         // 2. Seção de Declaração de Variáveis
         codigoC.append("    // --- Declaracao de Variaveis ---\n");
-        // Varre a tabela pegando cada objeto 'Simbolos' e chamando o generateCode() dele
+
         for (Simbolos sym : semantico.getTabelaDeSimbolos().getAll()) {
             codigoC.append("    ").append(sym.generateCode()).append("\n");
         }

@@ -18,13 +18,13 @@ public class CommandCondicao extends Command {
         StringBuilder str = new StringBuilder();
         str.append("if (").append(condition).append(") {\n");
 
-        // Adiciona os comandos do bloco verdadeiro (ENTAO)
+
         for (Command cmd : trueList) {
             str.append("        ").append(cmd.generateCode()).append("\n");
         }
         str.append("    }");
 
-        // Se houver comandos para o bloco falso (SENAO), gera a seção else
+
         if (falseList != null && !falseList.isEmpty()) {
             str.append(" else {\n");
             for (Command cmd : falseList) {

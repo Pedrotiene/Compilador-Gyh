@@ -24,7 +24,7 @@ public class Main {
          * ============================================================
          */
 
-//        String arquivoEntrada = "src/input/Testes Analisadores/_Testes_Semanticos/programa5.gyh";
+  //      String arquivoEntrada = "src/input/Testes Analisadores/_Testes_Semanticos/programa5.gyh";
 //
 //        String pastaOutput = "src/output/";
 //        String nomeArquivoSaida = "programa5.c";

@@ -11,7 +11,7 @@ public class CommandLeitura extends Command {
 
     @Override
     public String generateCode() {
-        // Gera o scanf adequado para C dependendo do tipo guardado no Symbol
+
         if (type == Simbolos.REAL) {
             return "scanf(\"%lf\", &" + variable + ");";
         } else {

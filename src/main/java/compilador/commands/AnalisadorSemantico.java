@@ -21,18 +21,18 @@ public class AnalisadorSemantico extends GyhLangBaseVisitor<Integer> {
         possuiErro = true;
     }
 
-    // Lista principal que guardará os comandos globais do programa
+
     private List<Command> listaComandosGlobal = new ArrayList<>();
 
-    // Ponteiro para a lista de comandos ativa no momento (essencial para blocos SE e ENQTO)
+
     private List<Command> listaComandosAtual = listaComandosGlobal;
 
-    // Retorna a lista final de comandos para o GeraCodigo usar
+
     public List<Command> getListaComandos() {
         return listaComandosGlobal;
     }
 
-    // Retorna a tabela de símbolos para o GeraCodigo mapear as declarações de variáveis
+
     public TabelaDeSimbolos getTabelaDeSimbolos() {
         return tabela;
     }
@@ -72,7 +72,7 @@ public class AnalisadorSemantico extends GyhLangBaseVisitor<Integer> {
         int tipoDaVariavel = tabela.getSymbol(nomeVar).getType();
         int tipoDaExpressao = visit(ctx.expressaoAritmetica());
 
-        // Validação de tipos usando as constantes de 'Simbolos'
+
         if (tipoDaVariavel == Simbolos.INT && tipoDaExpressao == Simbolos.REAL) {
             erro("Tipo incompatível! Não é possível atribuir REAL para a variável inteira '" + nomeVar + "'.");
         }
@@ -127,7 +127,7 @@ public class AnalisadorSemantico extends GyhLangBaseVisitor<Integer> {
     @Override
     public Integer visitComandoCondicao(GyhLangParser.ComandoCondicaoContext ctx) {
 
-        // Faz a análise semântica da condição
+
         visit(ctx.expressaoRelacional());
 
         String condicaoTexto = ctx.expressaoRelacional().getText();
@@ -267,13 +267,13 @@ public class AnalisadorSemantico extends GyhLangBaseVisitor<Integer> {
             return Simbolos.INT;
         }
 
-        // Número real
+
         if (ctx.NumReal() != null) {
 
             return Simbolos.REAL;
         }
 
-        // Expressão entre parênteses
+
         if (ctx.expressaoAritmetica() != null) {
 
             return visit(ctx.expressaoAritmetica());

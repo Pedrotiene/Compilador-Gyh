@@ -17,7 +17,6 @@ public class TabelaDeSimbolos {
         return tabela.get(nome);
     }
 
-    // Retorna todos os símbolos (útil para declarar as variáveis no topo do arquivo gerado)
     public java.util.Collection<Simbolos> getAll() {
         return tabela.values();
     }
