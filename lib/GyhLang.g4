@@ -64,7 +64,7 @@ subAlgoritmo
     ;
 
 // =====================================================================
-// EXPRESSÕES ARITMÉTICAS (SEM RECURSÃO À ESQUERDA)
+// EXPRESSÕES ARITMÉTICAS
 // =====================================================================
 
 expressaoAritmetica
@@ -85,7 +85,7 @@ fatorAritmetico
     ;
 
 // =====================================================================
-// EXPRESSÕES RELACIONAIS (SEM RECURSÃO À ESQUERDA)
+// EXPRESSÕES RELACIONAIS
 // =====================================================================
 
 expressaoRelacional
